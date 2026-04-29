@@ -3,12 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Подписки">
-<meta name="theme-color" content="#2d6a4f">
-<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzJkNmE0ZiIvPgogIDxyZWN0IHg9IjgwIiB5PSIxNjAiIHdpZHRoPSIzNTIiIGhlaWdodD0iMjIwIiByeD0iMjgiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjE1Ii8+CiAgPHJlY3QgeD0iODAiIHk9IjE2MCIgd2lkdGg9IjM1MiIgaGVpZ2h0PSIyMjAiIHJ4PSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI4IiBvcGFjaXR5PSIwLjQiLz4KICA8cmVjdCB4PSI4MCIgeT0iMjAwIiB3aWR0aD0iMzUyIiBoZWlnaHQ9IjQ4IiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4yIi8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjkwIiByPSI2MCIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuMTIiLz4KICA8dGV4dCB4PSIyNTYiIHk9IjMxMiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9Ijg4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4oK9PC90ZXh0PgogIDxyZWN0IHg9IjExMCIgeT0iMzIwIiB3aWR0aD0iODAiIGhlaWdodD0iMTIiIHJ4PSI2IiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC41Ii8+CiAgPHJlY3QgeD0iMjEwIiB5PSIzMjAiIHdpZHRoPSI1MCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjMiLz4KPC9zdmc+">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogItCU0LDRiNCx0L7RgNC0INC/0L7QtNC/0LjRgdC+0LoiLCAic2hvcnRfbmFtZSI6ICLQn9C+0LTQv9C40YHQutC4IiwgInN0YXJ0X3VybCI6ICIuLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjBmMmY4IiwgInRoZW1lX2NvbG9yIjogIiMyZDZhNGYiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQTFNVElnTlRFeUlqNEtJQ0E4Y21WamRDQjNhV1IwYUQwaU5URXlJaUJvWldsbmFIUTlJalV4TWlJZ2NuZzlJakV3TUNJZ1ptbHNiRDBpSXpKa05tRTBaaUl2UGdvZ0lEeHlaV04wSUhnOUlqZ3dJaUI1UFNJeE5qQWlJSGRwWkhSb1BTSXpOVElpSUdobGFXZG9kRDBpTWpJd0lpQnllRDBpTWpnaUlHWnBiR3c5SW5kb2FYUmxJaUJ2Y0dGamFYUjVQU0l3TGpFMUlpOCtDaUFnUEhKbFkzUWdlRDBpT0RBaUlIazlJakUyTUNJZ2QybGtkR2c5SWpNMU1pSWdhR1ZwWjJoMFBTSXlNakFpSUhKNFBTSXlPQ0lnWm1sc2JEMGlibTl1WlNJZ2MzUnliMnRsUFNKM2FHbDBaU0lnYzNSeWIydGxMWGRwWkhSb1BTSTRJaUJ2Y0dGamFYUjVQU0l3TGpRaUx6NEtJQ0E4Y21WamRDQjRQU0k0TUNJZ2VUMGlNakF3SWlCM2FXUjBhRDBpTXpVeUlpQm9aV2xuYUhROUlqUTRJaUJtYVd4c1BTSjNhR2wwWlNJZ2IzQmhZMmwwZVQwaU1DNHlJaTgrQ2lBZ1BHTnBjbU5zWlNCamVEMGlNalUySWlCamVUMGlNamt3SWlCeVBTSTJNQ0lnWm1sc2JEMGlkMmhwZEdVaUlHOXdZV05wZEhrOUlqQXVNVElpTHo0S0lDQThkR1Y0ZENCNFBTSXlOVFlpSUhrOUlqTXhNaUlnWm05dWRDMW1ZVzFwYkhrOUlrRnlhV0ZzSWlCbWIyNTBMWGRsYVdkb2REMGlPVEF3SWlCbWIyNTBMWE5wZW1VOUlqZzRJaUJtYVd4c1BTSjNhR2wwWlNJZ2RHVjRkQzFoYm1Ob2IzSTlJbTFwWkdSc1pTSSs0b0s5UEM5MFpYaDBQZ29nSUR4eVpXTjBJSGc5SWpFeE1DSWdlVDBpTXpJd0lpQjNhV1IwYUQwaU9EQWlJR2hsYVdkb2REMGlNVElpSUhKNFBTSTJJaUJtYVd4c1BTSjNhR2wwWlNJZ2IzQmhZMmwwZVQwaU1DNDFJaTgrQ2lBZ1BISmxZM1FnZUQwaU1qRXdJaUI1UFNJek1qQWlJSGRwWkhSb1BTSTFNQ0lnYUdWcFoyaDBQU0l4TWlJZ2NuZzlJallpSUdacGJHdzlJbmRvYVhSbElpQnZjR0ZqYVhSNVBTSXdMak1pTHo0S1BDOXpkbWMrIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIn1dfQ==">
 <title>Дашборд подписок</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -173,6 +167,59 @@ tbody tr:hover td { background: #fafbfe; }
   font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800;
   padding: 14px; cursor: pointer; margin-top: 4px;
 }
+
+/* CATEGORY MANAGER */
+.cat-manager-btn {
+  background: none; border: 1.5px solid #e2e5f0; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600;
+  color: #2d6a4f; padding: 8px 14px; cursor: pointer; margin-top: 6px;
+  width: 100%; transition: background 0.12s;
+}
+.cat-manager-btn:hover { background: #f0faf4; }
+.cat-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; max-height: 220px; overflow-y: auto; }
+.cat-item {
+  display: flex; align-items: center; gap: 8px;
+  background: #f7f8fc; border-radius: 10px; padding: 8px 10px;
+}
+.cat-color-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 0 0 1.5px #ddd; }
+.cat-item-name { flex: 1; font-size: 13px; font-weight: 600; }
+.cat-del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; padding: 2px 5px; border-radius: 6px; transition: color 0.12s; }
+.cat-del-btn:hover { color: #e05252; }
+.new-cat-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+.new-cat-input {
+  flex: 1; background: #f4f6fb; border: 1.5px solid #e2e5f0;
+  border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; color: #1a1d2e; padding: 9px 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.new-cat-input:focus { border-color: #2d6a4f; background: #fff; }
+.color-picker-wrap { position: relative; }
+.color-swatch { width: 36px; height: 36px; border-radius: 10px; border: 2px solid #e2e5f0; cursor: pointer; }
+.color-palette {
+  display: none; position: absolute; bottom: 44px; left: 0;
+  background: #fff; border: 1.5px solid #e2e5f0; border-radius: 12px;
+  padding: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); z-index: 200;
+  grid-template-columns: repeat(5, 28px); gap: 5px;
+}
+.color-palette.open { display: grid; }
+.pal-color { width: 28px; height: 28px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: transform 0.1s; }
+.pal-color:hover { transform: scale(1.15); }
+.pal-color.selected { border-color: #1a1d2e; }
+.add-cat-btn {
+  background: #2d6a4f; color: #fff; border: none; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700;
+  padding: 9px 14px; cursor: pointer; white-space: nowrap;
+}
+.modal-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.mtab {
+  flex: 1; padding: 9px; border-radius: 10px; border: 1.5px solid #e2e5f0;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; background: #f7f8fc; color: #9095b0; transition: all 0.15s;
+}
+.mtab.active { background: #2d6a4f; color: #fff; border-color: #2d6a4f; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
 .btn-cancel {
   width: 100%; background: none; color: #9095b0;
   border: 1.5px solid #e2e5f0; border-radius: 12px;
@@ -262,46 +309,139 @@ tbody tr:hover td { background: #fafbfe; }
 <!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <h2>Добавить подписку</h2>
-    <div class="fg"><label>Название</label><input id="iName" placeholder="Netflix, Spotify..."></div>
-    <div class="fr">
-      <div class="fg"><label>Сумма</label><input type="number" id="iPrice" placeholder="299"></div>
-      <div class="fg"><label>Валюта</label>
-        <select id="iCur"><option>₽</option><option>$</option><option>€</option><option>₸</option></select>
+    <div class="modal-tabs">
+      <button class="mtab active" id="tab1" onclick="switchTab(1)">➕ Подписка</button>
+      <button class="mtab" id="tab2" onclick="switchTab(2)">🏷️ Категории</button>
+    </div>
+
+    <!-- TAB 1: ADD SUBSCRIPTION -->
+    <div class="tab-panel active" id="panel1">
+      <div class="fg"><label>Название</label><input id="iName" placeholder="Netflix, Spotify..."></div>
+      <div class="fr">
+        <div class="fg"><label>Сумма</label><input type="number" id="iPrice" placeholder="299"></div>
+        <div class="fg"><label>Валюта</label>
+          <select id="iCur"><option>₽</option><option>$</option><option>€</option><option>₸</option></select>
+        </div>
       </div>
-    </div>
-    <div class="fr">
-      <div class="fg"><label>Период оплаты</label>
-        <select id="iCycle"><option value="Ежемесячно">Ежемесячно</option><option value="Ежегодно">Ежегодно</option><option value="Еженедельно">Еженедельно</option></select>
+      <div class="fr">
+        <div class="fg"><label>Период оплаты</label>
+          <select id="iCycle"><option value="Ежемесячно">Ежемесячно</option><option value="Ежегодно">Ежегодно</option><option value="Еженедельно">Еженедельно</option></select>
+        </div>
+        <div class="fg"><label>День списания</label><input type="number" id="iDay" placeholder="1–31" min="1" max="31"></div>
       </div>
-      <div class="fg"><label>День списания</label><input type="number" id="iDay" placeholder="1–31" min="1" max="31"></div>
+      <div class="fg"><label>Категория</label>
+        <select id="iCat"></select>
+      </div>
+      <div class="fg"><label>Статус</label>
+        <select id="iStatus"><option value="Активна">Активна</option><option value="Пауза">Пауза</option></select>
+      </div>
+      <button class="btn-save" onclick="addSub()">Сохранить</button>
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
     </div>
-    <div class="fg"><label>Категория</label>
-      <select id="iCat">
-        <option value="Стриминг">Стриминг</option>
-        <option value="Музыка">Музыка</option>
-        <option value="Программы">Программы</option>
-        <option value="Фитнес">Фитнес</option>
-        <option value="Игры">Игры</option>
-        <option value="Финансы">Финансы</option>
-        <option value="Шопинг">Шопинг</option>
-        <option value="Другое">Другое</option>
-      </select>
+
+    <!-- TAB 2: MANAGE CATEGORIES -->
+    <div class="tab-panel" id="panel2">
+      <div class="cat-list" id="catList"></div>
+      <div class="new-cat-row">
+        <div class="color-picker-wrap">
+          <div class="color-swatch" id="colorSwatch" onclick="togglePalette()" style="background:#52b788"></div>
+          <div class="color-palette" id="colorPalette"></div>
+        </div>
+        <input class="new-cat-input" id="newCatName" placeholder="Название категории...">
+        <button class="add-cat-btn" onclick="addCategory()">+ Добавить</button>
+      </div>
+      <button class="btn-cancel" onclick="closeModal()" style="margin-top:14px">Закрыть</button>
     </div>
-    <div class="fg"><label>Статус</label>
-      <select id="iStatus"><option value="Активна">Активна</option><option value="Пауза">Пауза</option></select>
-    </div>
-    <button class="btn-save" onclick="addSub()">Сохранить</button>
-    <button class="btn-cancel" onclick="closeModal()">Отмена</button>
   </div>
 </div>
 
 <script>
-const CC = {
-  Стриминг:'#52b788', Музыка:'#ffb703', Программы:'#4895ef',
-  Фитнес:'#f4845f', Игры:'#a855f7', Финансы:'#ef4444',
-  Шопинг:'#06b6d4', Другое:'#94a3b8'
-};
+const PALETTE_COLORS = [
+  '#52b788','#ffb703','#4895ef','#f4845f','#a855f7',
+  '#ef4444','#06b6d4','#94a3b8','#f97316','#ec4899',
+  '#10b981','#3b82f6','#8b5cf6','#f59e0b','#6366f1',
+  '#14b8a6','#84cc16','#e11d48','#0ea5e9','#d946ef'
+];
+
+const DEFAULT_CATS = [
+  {name:'Стриминг', color:'#52b788'},
+  {name:'Музыка', color:'#ffb703'},
+  {name:'Программы', color:'#4895ef'},
+  {name:'Здоровье', color:'#f4845f'},
+  {name:'Образование', color:'#a855f7'},
+  {name:'Работа', color:'#4895ef'},
+  {name:'Шопинг', color:'#06b6d4'},
+  {name:'Другое', color:'#94a3b8'}
+];
+
+let categories = JSON.parse(localStorage.getItem('cats3')||'null') || DEFAULT_CATS;
+function saveCategories(){ localStorage.setItem('cats3', JSON.stringify(categories)); }
+function getCatColor(name){ return (categories.find(c=>c.name===name)||{color:'#94a3b8'}).color; }
+// Build CC object dynamically
+function buildCC(){ const o={}; categories.forEach(c=>o[c.name]=c.color); return o; }
+
+let selectedColor = '#52b788';
+
+function renderPalette(){
+  const pal = document.getElementById('colorPalette');
+  pal.innerHTML = PALETTE_COLORS.map(c =>
+    `<div class="pal-color${c===selectedColor?' selected':''}" style="background:${c}" onclick="pickColor('${c}')"></div>`
+  ).join('');
+}
+function togglePalette(){
+  renderPalette();
+  document.getElementById('colorPalette').classList.toggle('open');
+}
+function pickColor(c){
+  selectedColor = c;
+  document.getElementById('colorSwatch').style.background = c;
+  document.getElementById('colorPalette').classList.remove('open');
+}
+document.addEventListener('click', e=>{
+  const pal = document.getElementById('colorPalette');
+  if(pal && !pal.contains(e.target) && e.target.id !== 'colorSwatch') pal.classList.remove('open');
+});
+
+function renderCatList(){
+  document.getElementById('catList').innerHTML = categories.map((c,i) => `
+    <div class="cat-item">
+      <div class="cat-color-dot" style="background:${c.color}"></div>
+      <div class="cat-item-name">${c.name}</div>
+      <button class="cat-del-btn" onclick="deleteCategory(${i})">✕</button>
+    </div>`).join('');
+  // also update select
+  const sel = document.getElementById('iCat');
+  if(sel){
+    const cur = sel.value;
+    sel.innerHTML = categories.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+    if(categories.find(c=>c.name===cur)) sel.value=cur;
+  }
+}
+function addCategory(){
+  const name = document.getElementById('newCatName').value.trim();
+  if(!name){ alert('Введи название категории'); return; }
+  if(categories.find(c=>c.name.toLowerCase()===name.toLowerCase())){ alert('Такая категория уже есть'); return; }
+  categories.push({name, color: selectedColor});
+  saveCategories();
+  document.getElementById('newCatName').value='';
+  renderCatList();
+render();
+}
+function deleteCategory(i){
+  if(categories.length<=1){ alert('Должна остаться хотя бы одна категория'); return; }
+  categories.splice(i,1);
+  saveCategories();
+  renderCatList();
+  render();
+}
+
+function switchTab(n){
+  document.getElementById('tab1').classList.toggle('active', n===1);
+  document.getElementById('tab2').classList.toggle('active', n===2);
+  document.getElementById('panel1').classList.toggle('active', n===1);
+  document.getElementById('panel2').classList.toggle('active', n===2);
+  if(n===2) renderCatList();
+}
 
 const DEMO = [
   {id:1,name:'Netflix',        price:699,  currency:'₽',cycle:'Ежемесячно',day:12,cat:'Стриминг', status:'Активна'},
@@ -346,7 +486,7 @@ function render(){
   // donut
   const cm={};
   active.forEach(s=>{cm[s.cat]=(cm[s.cat]||0)+mAmt(s);});
-  const ca=Object.entries(cm).map(([k,v])=>({n:k,v,c:CC[k]||'#94a3b8'})).sort((a,b)=>b.v-a.v);
+  const CC=buildCC(); const ca=Object.entries(cm).map(([k,v])=>({n:k,v,c:CC[k]||'#94a3b8'})).sort((a,b)=>b.v-a.v);
   const tot=ca.reduce((a,d)=>a+d.v,0)||1;
   drawDonut(ca);
   document.getElementById('legend').innerHTML=ca.map(d=>`
@@ -390,7 +530,7 @@ function render(){
 }
 
 function del(e,id){e.stopPropagation();subs=subs.filter(s=>s.id!==id);save();render();}
-function openModal(){document.getElementById('overlay').classList.add('open');}
+function openModal(){document.getElementById('overlay').classList.add('open'); switchTab(1); renderCatList();}
 function closeModal(){document.getElementById('overlay').classList.remove('open');}
 function addSub(){
   const name=document.getElementById('iName').value.trim();
