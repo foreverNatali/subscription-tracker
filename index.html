@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дашборд подписок</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #f0f2f8;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  color: #1a1d2e;
+}
+.topnav {
+  background: #fff;
+  border-bottom: 1px solid #e2e5f0;
+  padding: 13px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.nav-logo { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+.nav-logo span { color: #2d6a4f; }
+.nav-date { font-size: 12px; color: #9095b0; }
+
+.main { padding: 18px 14px; max-width: 860px; margin: 0 auto; }
+
+.page-title { font-size: 19px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 14px; }
+.page-title .highlight { color: #2d6a4f; }
+
+/* STAT CARDS */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card {
+  background: #fff; border-radius: 14px; border: 1px solid #e2e5f0;
+  padding: 14px 12px 12px; position: relative; overflow: hidden;
+}
+.stat-card::after {
+  content: ''; position: absolute; bottom: -18px; right: -12px;
+  width: 56px; height: 56px; border-radius: 50%; opacity: 0.08;
+}
+.sc-g::after { background: #2d6a4f; }
+.sc-b::after { background: #1e6091; }
+.sc-p::after { background: #6b3fa0; }
+.sc-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9095b0; margin-bottom: 8px; line-height: 1.3; }
+.sc-value { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.sc-value.g { color: #2d6a4f; }
+.sc-value.b { color: #1e6091; }
+.sc-value.p { color: #6b3fa0; }
+.sc-sub { font-size: 10px; color: #9095b0; margin-top: 3px; }
+.sc-ico {
+  position: absolute; top: 12px; right: 12px;
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 13px;
+}
+.sc-g .sc-ico { background: #d8f3dc; }
+.sc-b .sc-ico { background: #d0e8f5; }
+.sc-p .sc-ico { background: #ede0ff; }
+
+/* CARDS */
+.card { background: #fff; border-radius: 16px; border: 1px solid #e2e5f0; margin-bottom: 14px; overflow: hidden; }
+.card-title {
+  padding: 14px 16px 0;
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.6px; color: #7a7f9a; margin-bottom: 12px;
+}
+
+/* DONUT */
+.donut-section { display: flex; align-items: center; gap: 16px; padding: 0 16px 16px; }
+.donut-wrap { position: relative; flex-shrink: 0; }
+canvas { display: block; }
+.donut-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.dc-val { font-size: 14px; font-weight: 800; color: #1a1d2e; letter-spacing: -0.3px; }
+.dc-lbl { font-size: 9px; color: #9095b0; font-weight: 600; text-transform: uppercase; margin-top: 1px; }
+.legend { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.leg { display: flex; align-items: center; gap: 7px; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.leg-name { font-size: 12px; color: #444; flex: 1; }
+.leg-pct { font-size: 12px; font-weight: 700; }
+
+/* TABLES */
+table { width: 100%; border-collapse: collapse; }
+thead tr { background: #f7f8fc; }
+th {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: #9095b0;
+  padding: 8px 14px; text-align: left;
+  border-bottom: 1px solid #e8eaf2;
+}
+td {
+  padding: 10px 14px; font-size: 13px; color: #1a1d2e;
+  border-bottom: 1px solid #f0f2f8;
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background 0.1s; cursor: default; }
+tbody tr:hover td { background: #fafbfe; }
+
+.svc-row { display: flex; align-items: center; gap: 7px; }
+.svc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.soon { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 99px; background: #fff4e0; color: #c07000; margin-left: 5px; }
+.fw7 { font-weight: 700; }
+.dim { color: #8085a0; font-size: 12px; }
+
+.cat-chip {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 2px 7px; border-radius: 6px;
+}
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 9px; border-radius: 99px;
+}
+.badge.active   { background: #d8f3dc; color: #2d6a4f; }
+.badge.paused   { background: #fff4e0; color: #c07000; }
+.badge.inactive { background: #f0f1f5; color: #9095b0; }
+
+.del-btn {
+  background: none; border: none; color: #ccc; cursor: pointer;
+  font-size: 14px; padding: 3px 6px; border-radius: 6px; line-height: 1;
+  transition: color 0.12s, background 0.12s;
+}
+.del-btn:hover { color: #e05252; background: #fdf0f0; }
+
+.add-wrap { padding: 12px 16px; border-top: 1px solid #e8eaf2; }
+.add-btn {
+  width: 100%; background: #2d6a4f; color: #fff;
+  border: none; border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 700; padding: 12px;
+  cursor: pointer; transition: background 0.12s;
+}
+.add-btn:hover { background: #245c43; }
+
+/* MODAL */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(20,22,36,0.6); backdrop-filter: blur(5px);
+  z-index: 100; align-items: flex-end; justify-content: center;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 24px 18px 36px; width: 100%; max-width: 500px;
+  animation: up 0.22s ease;
+}
+@keyframes up { from { transform: translateY(50px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+.modal h2 { font-size: 17px; font-weight: 800; margin-bottom: 16px; }
+.fg { margin-bottom: 12px; }
+.fg label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: #888; display: block; margin-bottom: 5px; }
+.fg input, .fg select {
+  width: 100%; background: #f4f6fb; border: 1.5px solid #e2e5f0;
+  border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; color: #1a1d2e; padding: 10px 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.fg input:focus, .fg select:focus { border-color: #2d6a4f; background: #fff; }
+.fr { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-save {
+  width: 100%; background: #2d6a4f; color: #fff;
+  border: none; border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800;
+  padding: 14px; cursor: pointer; margin-top: 4px;
+}
+.btn-cancel {
+  width: 100%; background: none; color: #9095b0;
+  border: 1.5px solid #e2e5f0; border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px;
+  padding: 11px; cursor: pointer; margin-top: 8px;
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="nav-logo">Дашборд <span>подписок</span></div>
+  <div class="nav-date" id="ndate"></div>
+</div>
+
+<div class="main">
+  <div class="page-title">Дашборд <span class="highlight">подписок</span></div>
+
+  <div class="stat-row">
+    <div class="stat-card sc-g">
+      <div class="sc-ico">💳</div>
+      <div class="sc-label">Расходы в месяц</div>
+      <div class="sc-value g" id="sMonthly">—</div>
+      <div class="sc-sub">В месяц</div>
+    </div>
+    <div class="stat-card sc-b">
+      <div class="sc-ico">📅</div>
+      <div class="sc-label">Расходы в год</div>
+      <div class="sc-value b" id="sYearly">—</div>
+      <div class="sc-sub">В год</div>
+    </div>
+    <div class="stat-card sc-p">
+      <div class="sc-ico">👥</div>
+      <div class="sc-label">Активных подписок</div>
+      <div class="sc-value p" id="sActive">—</div>
+      <div class="sc-sub">Активных</div>
+    </div>
+  </div>
+
+  <!-- DONUT -->
+  <div class="card">
+    <div class="card-title">Расходы по категориям</div>
+    <div class="donut-section">
+      <div class="donut-wrap">
+        <canvas id="dc" width="120" height="120"></canvas>
+        <div class="donut-center">
+          <div class="dc-val" id="dcVal">—</div>
+          <div class="dc-lbl">в месяц</div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div class="card">
+    <div class="card-title">Ближайшие платежи</div>
+    <table>
+      <thead><tr><th>Подписка</th><th>Дата</th><th>Сумма</th></tr></thead>
+      <tbody id="upTbody"></tbody>
+    </table>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="card">
+    <div class="card-title">Все подписки</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Категория</th>
+          <th>Стоимость</th>
+          <th>Период</th>
+          <th>День списания</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="subTbody"></tbody>
+    </table>
+    <div class="add-wrap">
+      <button class="add-btn" onclick="openModal()">＋ Добавить подписку</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Добавить подписку</h2>
+    <div class="fg"><label>Название</label><input id="iName" placeholder="Netflix, Spotify..."></div>
+    <div class="fr">
+      <div class="fg"><label>Сумма</label><input type="number" id="iPrice" placeholder="299"></div>
+      <div class="fg"><label>Валюта</label>
+        <select id="iCur"><option>₽</option><option>$</option><option>€</option><option>₸</option></select>
+      </div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Период оплаты</label>
+        <select id="iCycle"><option value="Ежемесячно">Ежемесячно</option><option value="Ежегодно">Ежегодно</option><option value="Еженедельно">Еженедельно</option></select>
+      </div>
+      <div class="fg"><label>День списания</label><input type="number" id="iDay" placeholder="1–31" min="1" max="31"></div>
+    </div>
+    <div class="fg"><label>Категория</label>
+      <select id="iCat">
+        <option value="Стриминг">Стриминг</option>
+        <option value="Музыка">Музыка</option>
+        <option value="Программы">Программы</option>
+        <option value="Фитнес">Фитнес</option>
+        <option value="Игры">Игры</option>
+        <option value="Финансы">Финансы</option>
+        <option value="Шопинг">Шопинг</option>
+        <option value="Другое">Другое</option>
+      </select>
+    </div>
+    <div class="fg"><label>Статус</label>
+      <select id="iStatus"><option value="Активна">Активна</option><option value="Пауза">Пауза</option></select>
+    </div>
+    <button class="btn-save" onclick="addSub()">Сохранить</button>
+    <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+  </div>
+</div>
+
+<script>
+const CC = {
+  Стриминг:'#52b788', Музыка:'#ffb703', Программы:'#4895ef',
+  Фитнес:'#f4845f', Игры:'#a855f7', Финансы:'#ef4444',
+  Шопинг:'#06b6d4', Другое:'#94a3b8'
+};
+
+const DEMO = [
+  {id:1,name:'Netflix',        price:699,  currency:'₽',cycle:'Ежемесячно',day:12,cat:'Стриминг', status:'Активна'},
+  {id:2,name:'Spotify',        price:199,  currency:'₽',cycle:'Ежемесячно',day:14,cat:'Музыка',   status:'Активна'},
+  {id:3,name:'Абонемент в зал',price:2500, currency:'₽',cycle:'Ежемесячно',day:15,cat:'Фитнес',   status:'Активна'},
+  {id:4,name:'Adobe Creative', price:3190, currency:'₽',cycle:'Ежемесячно',day:20,cat:'Программы',status:'Активна'},
+  {id:5,name:'YouTube Premium', price:339, currency:'₽',cycle:'Ежемесячно',day:22,cat:'Стриминг', status:'Активна'},
+  {id:6,name:'Amazon Prime',   price:399,  currency:'₽',cycle:'Ежегодно',  day:3, cat:'Шопинг',   status:'Активна'},
+];
+
+let subs = JSON.parse(localStorage.getItem('subs3')||'null') || DEMO;
+let nid = Math.max(...subs.map(s=>s.id),0)+1;
+function save(){localStorage.setItem('subs3',JSON.stringify(subs));}
+function mAmt(s){return s.cycle==='Ежегодно'?s.price/12:s.cycle==='Еженедельно'?s.price*4.33:s.price;}
+function fmt(n,c){return Math.round(n).toLocaleString('ru-RU')+' '+c;}
+
+function drawDonut(cats){
+  const cv=document.getElementById('dc'), ctx=cv.getContext('2d');
+  const cx=60,cy=60,R=52,ri=34;
+  ctx.clearRect(0,0,120,120);
+  const tot=cats.reduce((a,d)=>a+d.v,0)||1;
+  let a=-Math.PI/2;
+  cats.forEach(d=>{
+    const sw=(d.v/tot)*2*Math.PI;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,R,a,a+sw); ctx.closePath();
+    ctx.fillStyle=d.c; ctx.fill(); a+=sw;
+  });
+  ctx.beginPath(); ctx.arc(cx,cy,ri,0,2*Math.PI);
+  ctx.fillStyle='#fff'; ctx.fill();
+}
+
+function render(){
+  const active=subs.filter(s=>s.status==='Активна');
+  const monthly=active.reduce((a,s)=>a+mAmt(s),0);
+  const cur=subs[0]?.currency||'₽';
+  document.getElementById('sMonthly').textContent=fmt(monthly,cur);
+  document.getElementById('sYearly').textContent=fmt(monthly*12,cur);
+  document.getElementById('sActive').textContent=active.length;
+  document.getElementById('dcVal').textContent=fmt(monthly,cur);
+
+  // donut
+  const cm={};
+  active.forEach(s=>{cm[s.cat]=(cm[s.cat]||0)+mAmt(s);});
+  const ca=Object.entries(cm).map(([k,v])=>({n:k,v,c:CC[k]||'#94a3b8'})).sort((a,b)=>b.v-a.v);
+  const tot=ca.reduce((a,d)=>a+d.v,0)||1;
+  drawDonut(ca);
+  document.getElementById('legend').innerHTML=ca.map(d=>`
+    <div class="leg">
+      <div class="leg-dot" style="background:${d.c}"></div>
+      <div class="leg-name">${d.n}</div>
+      <div class="leg-pct" style="color:${d.c}">${Math.round(d.v/tot*100)}%</div>
+    </div>`).join('');
+
+  // upcoming
+  const now=new Date();
+  const up=subs.filter(s=>s.status==='Активна').map(s=>{
+    let nx=new Date(now.getFullYear(),now.getMonth(),s.day);
+    if(nx<=now) nx=new Date(now.getFullYear(),now.getMonth()+1,s.day);
+    const diff=Math.ceil((nx-now)/86400000);
+    return{...s,nx,diff};
+  }).sort((a,b)=>a.diff-b.diff).slice(0,6);
+
+  document.getElementById('upTbody').innerHTML=up.map(s=>`
+    <tr>
+      <td><div class="svc-row">
+        <div class="svc-dot" style="background:${CC[s.cat]||'#94a3b8'}"></div>
+        <span>${s.name}</span>
+        ${s.diff<=3?`<span class="soon">${s.diff===0?'Сегодня!':s.diff===1?'Завтра!':s.diff+' дня'}</span>`:''}
+      </div></td>
+      <td class="dim">${s.nx.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}</td>
+      <td class="fw7">${s.price.toLocaleString('ru-RU')} ${s.currency}</td>
+    </tr>`).join('');
+
+  // overview
+  document.getElementById('subTbody').innerHTML=subs.map(s=>`
+    <tr>
+      <td class="fw7">${s.name}</td>
+      <td><span class="cat-chip" style="background:${CC[s.cat]||'#eee'}20;color:${CC[s.cat]||'#888'}">${s.cat}</span></td>
+      <td class="fw7">${s.price.toLocaleString('ru-RU')} ${s.currency}</td>
+      <td class="dim">${s.cycle}</td>
+      <td class="dim">${s.day}</td>
+      <td><span class="badge ${s.status==='Активна'?'active':s.status==='Пауза'?'paused':'inactive'}">${s.status}</span></td>
+      <td><button class="del-btn" onclick="del(event,${s.id})">✕</button></td>
+    </tr>`).join('');
+}
+
+function del(e,id){e.stopPropagation();subs=subs.filter(s=>s.id!==id);save();render();}
+function openModal(){document.getElementById('overlay').classList.add('open');}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+function addSub(){
+  const name=document.getElementById('iName').value.trim();
+  const price=parseFloat(document.getElementById('iPrice').value);
+  if(!name||!price){alert('Заполни название и сумму');return;}
+  subs.push({id:nid++,name,price,
+    currency:document.getElementById('iCur').value,
+    cycle:document.getElementById('iCycle').value,
+    day:parseInt(document.getElementById('iDay').value)||1,
+    cat:document.getElementById('iCat').value,
+    status:document.getElementById('iStatus').value
+  });
+  save();render();closeModal();
+  ['iName','iPrice','iDay'].forEach(i=>document.getElementById(i).value='');
+}
+document.getElementById('overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('overlay'))closeModal();
+});
+const d=new Date();
+const mn=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+document.getElementById('ndate').textContent=`${d.getDate()} ${mn[d.getMonth()]} ${d.getFullYear()}`;
+render();
+</script>
+</body>
+</html>
