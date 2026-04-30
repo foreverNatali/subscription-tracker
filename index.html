@@ -101,6 +101,8 @@ tbody tr:hover td { background:#fafbfe; }
 .add-cat-btn { background:#2d6a4f; color:#fff; border:none; border-radius:10px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; padding:10px 14px; cursor:pointer; white-space:nowrap; }
 .add-cat-btn:hover { background:#245c43; }
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -224,39 +226,33 @@ tbody tr:hover td { background:#fafbfe; }
 </div>
 
 <script>
-// ── FIREBASE (dynamic import so global functions still work) ──
-let _db, _ref;
-async function firebaseInit(){
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const app = initializeApp({
+// ── FIREBASE ─────────────────────────────────────────────
+const _app = firebase.initializeApp({
   apiKey: "AIzaSyDUIadKR0wkFEEiONfHHWCwqc42I3hSAso",
   authDomain: "paylist-ccce6.firebaseapp.com",
   projectId: "paylist-ccce6",
   storageBucket: "paylist-ccce6.firebasestorage.app",
   messagingSenderId: "987744001831",
   appId: "1:987744001831:web:41dbc8d747b1b6893ed302"
-  });
-  _db  = getFirestore(app);
-  _ref = doc(_db, 'subscriptions', 'natali');
-}
+});
+const _db  = firebase.firestore();
+const _ref = _db.collection("subscriptions").doc("natali");
 
 async function fbLoad(){
-  await firebaseInit();
   try {
-    const snap = await getDoc(_ref);
-    if(snap.exists()){
+    const snap = await _ref.get();
+    if(snap.exists){
       const data = snap.data();
       if(data.subs && data.subs.length) subs = data.subs;
       if(data.cats && data.cats.length) cats = data.cats;
       nid = Math.max(...subs.map(s=>s.id), 0) + 1;
     }
-  } catch(e){ console.error('load error', e); }
+  } catch(e){ console.error("load error", e); }
   refreshCatSelect(); renderSwatch(); render();
 }
 async function fbSave(){
-  try { await setDoc(_ref, { subs, cats }); }
-  catch(e){ console.error('save error', e); }
+  try { await _ref.set({ subs, cats }); }
+  catch(e){ console.error("save error", e); }
 }
 
 // ── PALETTE ──────────────────────────────────────────────
@@ -294,7 +290,7 @@ const DEMO = [
 ];
 
 let subs = [...DEMO];
-let nid = Math.max(...subs.map(s=>s.id), 0) + 1;
+let nid = 1;
 function saveSubs(){ fbSave(); }
 function mAmt(s){ return s.cycle==='Ежегодно' ? s.price/12 : s.cycle==='Еженедельно' ? s.price*4.33 : s.price; }
 function fmt(n,c){ return Math.round(n).toLocaleString('ru-RU') + ' ' + c; }
