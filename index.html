@@ -224,6 +224,41 @@ tbody tr:hover td { background:#fafbfe; }
 </div>
 
 <script>
+// ── FIREBASE (dynamic import so global functions still work) ──
+let _db, _ref;
+async function firebaseInit(){
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const app = initializeApp({
+  apiKey: "AIzaSyDUIadKR0wkFEEiONfHHWCwqc42I3hSAso",
+  authDomain: "paylist-ccce6.firebaseapp.com",
+  projectId: "paylist-ccce6",
+  storageBucket: "paylist-ccce6.firebasestorage.app",
+  messagingSenderId: "987744001831",
+  appId: "1:987744001831:web:41dbc8d747b1b6893ed302"
+  });
+  _db  = getFirestore(app);
+  _ref = doc(_db, 'subscriptions', 'natali');
+}
+
+async function fbLoad(){
+  await firebaseInit();
+  try {
+    const snap = await getDoc(_ref);
+    if(snap.exists()){
+      const data = snap.data();
+      if(data.subs && data.subs.length) subs = data.subs;
+      if(data.cats && data.cats.length) cats = data.cats;
+      nid = Math.max(...subs.map(s=>s.id), 0) + 1;
+    }
+  } catch(e){ console.error('load error', e); }
+  refreshCatSelect(); renderSwatch(); render();
+}
+async function fbSave(){
+  try { await setDoc(_ref, { subs, cats }); }
+  catch(e){ console.error('save error', e); }
+}
+
 // ── PALETTE ──────────────────────────────────────────────
 const COLORS = [
   '#52b788','#ffb703','#4895ef','#f4845f','#a855f7',
@@ -244,8 +279,8 @@ const DEFAULT_CATS = [
   {name:'Другое',     color:'#94a3b8'}
 ];
 
-let cats = JSON.parse(localStorage.getItem('cats4') || 'null') || DEFAULT_CATS;
-function saveCats(){ localStorage.setItem('cats4', JSON.stringify(cats)); }
+let cats = [...DEFAULT_CATS];
+function saveCats(){ fbSave(); }
 function catColor(name){ const c = cats.find(c=>c.name===name); return c ? c.color : '#94a3b8'; }
 
 // ── SUBSCRIPTIONS ─────────────────────────────────────────
@@ -258,9 +293,9 @@ const DEMO = [
   {id:6,name:'Amazon Prime',    price:399,  currency:'₽',cycle:'Ежегодно',  day:3, cat:'Шопинг',    status:'Активна'},
 ];
 
-let subs = JSON.parse(localStorage.getItem('subs3') || 'null') || DEMO;
+let subs = [...DEMO];
 let nid = Math.max(...subs.map(s=>s.id), 0) + 1;
-function saveSubs(){ localStorage.setItem('subs3', JSON.stringify(subs)); }
+function saveSubs(){ fbSave(); }
 function mAmt(s){ return s.cycle==='Ежегодно' ? s.price/12 : s.cycle==='Еженедельно' ? s.price*4.33 : s.price; }
 function fmt(n,c){ return Math.round(n).toLocaleString('ru-RU') + ' ' + c; }
 
@@ -453,8 +488,7 @@ function render(){
 const d  = new Date();
 const mn = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
 document.getElementById('ndate').textContent = `${d.getDate()} ${mn[d.getMonth()]} ${d.getFullYear()}`;
-renderSwatch();
-render();
+fbLoad();
 </script>
 </body>
 </html>
